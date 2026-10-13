@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Font Family - using Manrope + Marck Script */
+  --font-family-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-marck: 'Marck Script', cursive;
+  
+  /* Colors - Define them properly for Tailwind v4 */
+  --color-background: #111111;
+  --color-foreground: #ffffff;
+  --color-lightblue: #A2F6FF;
+  --color-foundation: #3BEDFF;
+  --color-foundation-active: #C2F9FF;
+  --color-foundation-dark: #155359;
+  --color-foundation-green: #092A30;
+  --color-foundation-darkbtn: #1D1D1D;
+  --color-footer: #E2FCFF;
+
+}
+
+html, body {
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-family-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Marquee Automation Logic */
+@keyframes marquee {
+  0% { transform: translate3d(0%, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Loading Screen Animations */
+@keyframes shimmerBeam {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes logoBreathe {
+  0%, 100% {
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.animate-shimmer-beam {
+  animation: shimmerBeam 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-logo-breathe {
+  animation: logoBreathe 2.4s ease-in-out infinite;
+}
+
+@keyframes logoFillFromLeft {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  55% {
+    clip-path: inset(0 0% 0 0);
+  }
+  80% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0% 0 100%);
+    opacity: 0.9;
+  }
+}
+
+.animate-logo-fill {
+  animation: logoFillFromLeft 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Windows touchscreen & Lenovo hybrid device hover fixes */
+.tab-toggle-btn {
+  forced-color-adjust: none;
+}
+
+.tab-toggle-btn:hover {
+  background-color: #3BEDFF !important;
+  color: #111111 !important;
+  border-color: #3BEDFF !important;
+}
+
+@media (any-hover: hover) {
+  .hover\:bg-\[\#3BEDFF\]:hover {
+    background-color: #3bedff !important;
+  }
+  .hover\:text-\[\#111111\]:hover {
+    color: #111111 !important;
+  }
+  .hover\:border-\[\#3BEDFF\]:hover {
+    border-color: #3bedff !important;
+  }
+}
+
+/* Utility to hide scrollbars while preserving scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
