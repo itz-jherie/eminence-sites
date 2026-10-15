@@ -182,7 +182,29 @@ export default defineType({
         'Select 4 projects from your Motion catalogue to feature when custom motion items above are not set. Only projects categorized as "Motion" will appear. Leave empty to automatically use the top 4 motion projects.',
     }),
 
-    // 4. Social Share & SEO Settings (Open Graph / Twitter)
+    // 4. Elite digital experiences / Product Showcase (Below Motion)
+    defineField({
+      name: 'productHeading',
+      title: '4a. Product Section Heading',
+      type: 'string',
+      description: 'Heading for the product section below motion (defaults to "Elite digital experiences").',
+    }),
+    defineField({
+      name: 'productActionText',
+      title: '4b. Product Section Link Text',
+      type: 'string',
+      description: 'Text for the bottom-left link (defaults to "Website and Applications").',
+    }),
+    defineField({
+      name: 'productPicks',
+      title: '4c. Product Showcase — Pick Projects/Images',
+      type: 'array',
+      of: [pickObject],
+      description:
+        'Optionally pick specific Product projects or visuals for the homepage section. Leave empty to automatically display projects in the Product category.',
+    }),
+
+    // 5. Social Share & SEO Settings (Open Graph / Twitter)
     defineField({
       name: 'ogImage',
       title: '4a. Social Share / Open Graph (OG) Image',

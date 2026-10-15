@@ -200,7 +200,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
             ))}
           </div>
 
-          {/* Projects — Branding uses Bento 2x2, Motion uses eminence-style grid with hover banner */}
+          {/* Projects — Branding uses Bento 2x2, Motion uses eminence-style grid, Product uses single large hero image */}
           {activeTab === 'Motion' ? (
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
               {filteredProjects.length > 0 ? (
@@ -251,6 +251,46 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                 ))
               ) : (
                 <div className="col-span-1 md:col-span-2 py-20 text-center text-[#666]">No projects found for Motion.</div>
+              )}
+            </div>
+          ) : activeTab === 'Product' ? (
+            /* Product Tab: Figma specs: desktop 1192x623, r: 12px, opacity: 0.68; mobile 350x182.93, r: 8px, opacity: 0.68 */
+            <div className="mt-12 md:mt-[62px] space-y-6 md:space-y-10 flex flex-col items-center w-full">
+              {filteredProjects.length > 0 ? (
+                filteredProjects.map((project) => {
+                  const image =
+                    project.coverImageUrl ||
+                    (project.galleryUrls && project.galleryUrls[0]) ||
+                    (project.previewUrls && project.previewUrls[0]) ||
+                    '';
+
+                  return (
+                    <Link
+                      key={project._id}
+                      href={`/projects/${project.slug}`}
+                      className="group relative block w-full max-w-[350px] md:max-w-[1192px] aspect-[350/182.93] md:aspect-[1192/623] rounded-[8px] md:rounded-[12px] opacity-[0.68] hover:opacity-100 transition-all duration-500 overflow-hidden bg-[#1a1a1a]"
+                    >
+                      {image ? (
+                        <Image
+                          src={sanityImage(image, 1800)}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 350px, 1192px"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-[#111] flex items-center justify-center text-[#444] text-sm">
+                          {project.title}
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className="py-20 text-center text-[#666]">
+                  <p>No projects found for Product.</p>
+                </div>
               )}
             </div>
           ) : (

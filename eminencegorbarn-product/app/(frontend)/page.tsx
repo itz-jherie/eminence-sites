@@ -176,7 +176,7 @@ export default async function Home() {
       ]}
       pageTitle="Mr. Eminence | Product Designer"
       pageDescription="Oluwanimifise 'Eminence' Adesogan is a product designer specializing in digital products, UI/UX, and design systems."
-      layout="bento"
+      layout="product"
     />
   );
 }

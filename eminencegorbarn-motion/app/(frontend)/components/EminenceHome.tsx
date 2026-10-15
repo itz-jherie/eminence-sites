@@ -23,7 +23,7 @@ export interface EminenceProject {
   mobilePreviewUrl?: string | null;
 }
 
-export type EminenceLayout = 'motion' | 'bento' | 'auto';
+export type EminenceLayout = 'motion' | 'bento' | 'product' | 'auto';
 
 const PROJECT_DEFAULT_TAGS: Record<string, string[]> = {
   kclautx: ['Fintech', 'Cryptocurrency', 'Digital Payments'],
@@ -105,9 +105,11 @@ export default function EminenceHome({
 
   const filteredItems = projects.filter(item => item.category === activeFilter)
 
-  // Motion tab gets the eminence-style video cards; Branding / Graphics /
-  // Product tabs get the bento layout (title header + 4-image bento)
-  const useBento = layout === 'bento' || (layout === 'auto' && activeFilter !== 'Motion')
+  // Product tab gets the Figma-spec single hero image cards;
+  // Motion tab gets the eminence-style video cards; Branding / Graphics
+  // tabs get the bento layout (title header + 4-image bento)
+  const isProduct = layout === 'product' || (layout === 'auto' && activeFilter === 'Product')
+  const useBento = !isProduct && (layout === 'bento' || (layout === 'auto' && activeFilter !== 'Motion'))
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -192,8 +194,56 @@ export default function EminenceHome({
             </div>
           </RevealOnScroll>
 
-          {/* Portfolio Grid — Motion cards or Branding bento */}
-          {!useBento ? (
+          {/* Portfolio Grid — Motion cards, Product single hero cards, or Branding bento */}
+          {isProduct ? (
+            /* Product layout — Figma specs: desktop 1192x623, r: 12px, opacity: 0.68; mobile 350x182.93, r: 8px, opacity: 0.68 */
+            <div className="mt-8 md:mt-12 space-y-6 md:space-y-10 flex flex-col items-center w-full mb-12 md:mb-16">
+              {filteredItems.length > 0 ? (
+                filteredItems.map((item) => {
+                  const image =
+                    item.coverUrl ||
+                    (item.galleryUrls && item.galleryUrls[0]) ||
+                    (item.previewUrls && item.previewUrls[0]) ||
+                    '';
+
+                  return (
+                    <RevealOnScroll
+                      key={item._id}
+                      direction="up"
+                      delay={100}
+                      duration={1000}
+                      yOffset={30}
+                      className="w-full flex justify-center"
+                    >
+                      <Link
+                        href={`/projects/${item.slug}`}
+                        className="group relative block w-full max-w-[350px] md:max-w-[1192px] aspect-[350/182.93] md:aspect-[1192/623] rounded-[8px] md:rounded-[12px] opacity-[0.68] hover:opacity-100 transition-all duration-500 overflow-hidden bg-[#1a1a1a]"
+                      >
+                        {image ? (
+                          <Image
+                            src={sanityImage(image, 1800)}
+                            alt={item.title}
+                            fill
+                            sizes="(max-width: 768px) 350px, 1192px"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-[#111] flex items-center justify-center text-[#444] text-sm">
+                            {item.title}
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                      </Link>
+                    </RevealOnScroll>
+                  );
+                })
+              ) : (
+                <div className="py-20 text-center text-[#666]">
+                  <p>No projects found for Product.</p>
+                </div>
+              )}
+            </div>
+          ) : !useBento ? (
           <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-10 md:gap-10 lg:gap-10 mb-12 md:mb-16">
             {filteredItems.map((item, index) => (

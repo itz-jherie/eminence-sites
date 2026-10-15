@@ -42,6 +42,14 @@ export default defineConfig({
               S,
               context,
             }),
+            S.listItem()
+              .title('Product Projects (UI/UX & Apps)')
+              .id('productProjects')
+              .child(
+                S.documentList()
+                  .title('Product Projects')
+                  .filter('_type == "project" && category == "Product"')
+              ),
             orderableDocumentListDeskItem({
               type: 'teamMember',
               title: 'Team Members (Xi Studio)',
